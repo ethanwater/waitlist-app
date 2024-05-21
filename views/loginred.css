@@ -69,6 +69,7 @@ button[type="code"] {
     top: 20%;
     width: 99%;
     position: fixed;
+    margin-bottom: 20px;
 }
   
 .transition, form button, form .question label, form .question input[type="text"] {

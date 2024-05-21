@@ -1,20 +1,19 @@
 package main
 
 import (
-	"context"
-	"fmt"
-	"log"
 	"math/rand"
+	"net/http"
 	"net/mail"
-	"net/smtp"
 	"regexp"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
+	"gopkg.in/gomail.v2"
 )
 
 type App struct {
@@ -33,6 +32,7 @@ func main() {
 
 	app.API.GET("/enrollemail", enroll())
 	app.API.GET("/sendverificationcode", sendVerificationEmail())
+	app.API.GET("/verifyverificationcode", verifyVerificationCode())
 
 	app.Engine.Use(static.Serve("/", static.LocalFile("./views", true)))
 	app.Engine.Run(app.Address)
@@ -44,38 +44,49 @@ func enroll() func(*gin.Context) {
 	}
 }
 
+var code2FA atomic.Value
+
 func sendVerificationEmail() func(*gin.Context) {
 	return func(ctx *gin.Context) {
-		recipientEmail := ctx.Query("email")
-
-		_, err := mail.ParseAddress(recipientEmail)
-		if err != nil {
-			ctx.JSON(200, gin.H{
-				"error": "invalid email",
-			})
-			return
-		}
-
 		adminEmail := "vivianniyuki@gmail.com"
+		recipientEmail := ctx.Query("email")
 		appPassword := "mmet bifn orxu uzgs"
-
-		to := []string{recipientEmail}
-		auth := smtp.PlainAuth("", adminEmail, appPassword, "smtp.gmail.com")
-
 		verificationCode, err := GenerateAuthKey2FA()
 		if err != nil {
 			return
 		}
-
-		msg := []byte("To: " + recipientEmail + "\r\n" +
-			"Subject: Vivian's Waitlist Verification Code\r\n" +
-			"\r\n" +
-			verificationCode +
-			"\r\n")
-
-		err = smtp.SendMail("smtp.gmail.com:587", auth, adminEmail, to, msg)
+		hashedCode, err := HashPassword(verificationCode)
 		if err != nil {
-			log.Fatal(err)
+			return
+		}
+
+		m := gomail.NewMessage()
+		m.SetHeader("From", adminEmail)
+		m.SetHeader("To", recipientEmail)
+		m.SetHeader("Subject", "Vivian's Waitlist Verification Code")
+		m.SetBody("text/html", "Verification Code: "+verificationCode)
+
+		d := gomail.NewDialer("smtp.gmail.com", 587, adminEmail, appPassword)
+
+		if err := d.DialAndSend(m); err != nil {
+			panic(err)
+		}
+		code2FA.Store(hashedCode)
+		ctx.JSON(http.StatusOK, gin.H{"code": hashedCode})
+	}
+}
+
+func verifyVerificationCode() func(*gin.Context) {
+	return func(ctx *gin.Context) {
+		inputcode := ctx.Query("code")
+		hash := code2FA.Load().(string)
+
+		result, _ := VerifyAuthKey2FA(hash, inputcode)
+		if result {
+			ctx.JSON(http.StatusOK, gin.H{"code": "true"})
+			//store email in db
+		} else {
+			ctx.JSON(http.StatusOK, gin.H{"code": "false"})
 		}
 	}
 }
@@ -93,27 +104,10 @@ func GenerateAuthKey2FA() (string, error) {
 		sample := source.Intn(len(charset))
 		authKey.WriteString(string(charset[sample]))
 	}
-	fmt.Println(authKey.String())
-
-	hashChannel := make(chan string, 1)
-	go func() {
-		authKeyHash, err := HashPassword(authKey.String())
-		if err != nil {
-			hashChannel <- ""
-			return
-		}
-		hashChannel <- authKeyHash
-	}()
-	hash := <-hashChannel
-
-	if hash == "" {
-		return "", nil
-	}
-
-	return hash, nil
+	return authKey.String(), nil
 }
 
-func VerifyAuthKey2FA(ctx context.Context, authkey_hash, input string) (bool, error) {
+func VerifyAuthKey2FA(authkey_hash, input string) (bool, error) {
 	var mu sync.Mutex
 	mu.Lock()
 	defer mu.Unlock()
