@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"net/http"
 	"net/mail"
+	"os"
 	"regexp"
 	"strings"
 	"sync"
@@ -46,11 +47,24 @@ func enroll() func(*gin.Context) {
 
 var code2FA atomic.Value
 
+func restructureKey(input string) string {
+	var result strings.Builder
+
+	for i, char := range input {
+		if i > 0 && i%4 == 0 {
+			result.WriteByte(' ')
+		}
+		result.WriteRune(char)
+	}
+
+	return result.String()
+}
+
 func sendVerificationEmail() func(*gin.Context) {
 	return func(ctx *gin.Context) {
-		adminEmail := "vivianniyuki@gmail.com"
+		adminEmail := os.Getenv("ADMINEMAIL")
+		appPassword := restructureKey(os.Getenv("ADMINAPPKEY"))
 		recipientEmail := ctx.Query("email")
-		appPassword := "mmet bifn orxu uzgs"
 		verificationCode, err := GenerateAuthKey2FA()
 		if err != nil {
 			return
@@ -85,6 +99,7 @@ func verifyVerificationCode() func(*gin.Context) {
 		if result {
 			ctx.JSON(http.StatusOK, gin.H{"code": "true"})
 			//store email in db
+
 		} else {
 			ctx.JSON(http.StatusOK, gin.H{"code": "false"})
 		}
