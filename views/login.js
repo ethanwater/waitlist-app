@@ -2,28 +2,8 @@ function strip(s) {
     return s.replace(/\s+/g, '');
 }
 
-function initCookie2FA(name, value) {
-    const d = new Date();
-    d.setTime(d.getTime() + (5 * 60 * 1000));
-    let expires = "expires=" + d.toUTCString();
-    document.cookie = name + "=" + value + ";" + expires + ";path=/";
-}
-
-function getCookie2FA(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for(let i = 0; i <ca.length; i++) {
-        let c = ca[i].trim();
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
-async function loginResponse(endpoint, email, password, aborter) {
-    const response = await fetch(`/${endpoint}?q=${encodeURIComponent(email)}&p=${encodeURIComponent(password)}`, {
+async function enrollEmailResponse(endpoint, email, password, aborter) {
+    const response = await fetch(`/${endpoint}?q=${encodeURIComponent(email)}`, {
         signal: aborter.signal,
     });
     const text = await response.text();
