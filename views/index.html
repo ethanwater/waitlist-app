@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>waitlist</title>
+    <link rel="stylesheet" type="text/css" href="loginred.css" type="style.css">
+		<script type="text/javascript" src="login.js"></script>
+    <script>
+     function focusNextInput(currentInput, event) {
+      var currentIndex = Array.from(document.querySelectorAll('.symbol')).indexOf(currentInput);
+      if (event.key =='Backspace') {
+          event.preventDefault();
+          var prevInput = document.querySelectorAll('.symbol')[currentIndex - 1];
+          if (prevInput) {
+              prevInput.focus();
+          }
+        } else {
+          var nextInput = document.querySelectorAll('.symbol')[currentIndex + 1];
+          if (nextInput) {
+              nextInput.focus();
+          }
+        }
+      } 
+    </script>
+  </head>
+
+  <body>
+    <div class="container">
+			<div class="loader">
+  			<div class="inner one"></div>
+  			<div class="inner two"></div>
+  			<div class="inner three"></div>
+			</div>
+			<p></p>
+      <div id="main"></div>
+      <input type="email" id="email"class="email_icon" placeholder="email"required>
+      <button id="enter">enter</button> 
+      <p id="timestamp"></p>
+      <p id="mark">© 2024 Vivian</p>
+    </div>
+	</body>
+
+</html>
+
+
