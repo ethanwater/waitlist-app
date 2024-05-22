@@ -80,7 +80,11 @@ button[type="code"] {
 }
   
 .email_icon {
+  background-image: url("user.png");
+  background-position: 10px center;
+  background-repeat: no-repeat;
   background-size: 14px;
+  padding-left: 40px;
 }
 
 .errormsg {
@@ -132,7 +136,7 @@ button:hover {
   box-shadow: 0 6px 9px -2px var(--space-shadow);
 }
 
-input:valid + button {
+input:valid + div + button {
   pointer-events: all;
   opacity: 1;
 }
@@ -202,6 +206,7 @@ input[type="email"] {
   left: 38.75%;
   position: relative;
   margin-bottom: 20px;
+  margin-top: 50px;
   background-color: var(--space-whey);
   border: 1px solid var(--space-whey);
   line-height: 0;
