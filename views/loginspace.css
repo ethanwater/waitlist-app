@@ -53,18 +53,24 @@ p {
   font-size: small;
   -webkit-font-smoothing: antialiased;
 }
-  
-#mark {
-  animation: enter 3s;
-  font-size: 4%;
-  color: var(--space-whey);
+
+#tags {
+  margin-top: 35%;
+  display: flex; 
+  justify-content: left; 
 }
 
-#twittertag {
+#copyright, #twittertag {
+  font-size: 95%;
   animation: enter 3s;
-  font-size: 4%;
   color: var(--space-whey);
-  width: 5%;
+  text-align: center; 
+  margin: 0 10px; 
+}
+
+#twittertag:hover {
+  color: var(--space-red);
+  text-decoration: none; 
 }
 
 button[type="code"] {
