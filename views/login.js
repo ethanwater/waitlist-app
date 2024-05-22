@@ -98,7 +98,6 @@ function main() {
             const response = await sendVerificationCode(email.value, controller);
             hashedCode = response.code;
             createVerificationElement();                
-
         } catch (error) {
             errorMessage('Failed to send verification email');
         }

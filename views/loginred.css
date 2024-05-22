@@ -1,8 +1,10 @@
 :root {
-  --space-shadow: rgb(233, 75, 75);
-  --space-maroon: #9b111e;
+  --space-shadow: rgb(75, 45, 198);
+  --space-tone: rgb(102, 77, 203);
+  --space-maroon: #3f0b7e;
   --space-whey: white;
-  --space-red: #ff4a56;
+  --space-glow: rgb(110, 8, 244);
+  --space-red: #721dab;
 }
   
 html, body {
@@ -14,8 +16,8 @@ html, body {
   
   
 body {
-  background: rgb(138,0,0);
-  background: linear-gradient(180deg, var(--space-maroon) 74%, rgba(222,0,0,0.8155637254901961) 100%);
+  background: rgb(152, 3, 117);
+  background: linear-gradient(80deg, var(--space-maroon) 40%, rgba(192, 29, 83, 0.816) 100%);
   font-family: Helvetica, sans-serif;
   font-weight: light;
   -webkit-font-smoothing: antialiased;
@@ -179,7 +181,7 @@ input[type="text"] {
 }
   
 input[type="text"]:focus {
-  box-shadow: 0 8px 9px -2px var(--space-shadow);
+  box-shadow: 0 8px 9px -2px rgba(192, 29, 83, 0.816);
   outline: none;
   background-color: var(--space-shadow);
   color: var(--space-whey);
@@ -223,9 +225,9 @@ input[type="email"] {
 }
   
 input[type="email"]:focus {
-  box-shadow: 0 8px 9px -2px var(--space-shadow);
+  box-shadow: 0 8px 9px -2px rgba(192, 29, 124, 0.816);
   outline: none;
-  background-color: var(--space-shadow);
+  background-color: var(--space-tone);
   color: var(--space-whey);
   
 }
