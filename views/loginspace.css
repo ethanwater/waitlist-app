@@ -60,6 +60,13 @@ p {
   color: var(--space-whey);
 }
 
+#twittertag {
+  animation: enter 3s;
+  font-size: 4%;
+  color: var(--space-whey);
+  width: 5%;
+}
+
 button[type="code"] {
   pointer-events: all;
   opacity: 1;
@@ -205,7 +212,8 @@ input[type="email"]:hover {
 
 input[type="email"] {
   box-shadow: 0 3px 6px -1px var(--space-shadow);
-  left: 38.75%;
+  left: 50%;
+  transform: translateX(-50%);
   position: relative;
   margin-bottom: 20px;
   margin-top: 50px;
