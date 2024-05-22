@@ -55,8 +55,10 @@ p {
 }
 
 #tags {
-  margin-top: 35%;
+  position: absolute;
   display: flex; 
+  bottom: 0;
+  left: 0;
   justify-content: left; 
 }
 
