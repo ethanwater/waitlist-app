@@ -1,10 +1,10 @@
 :root {
-  --space-shadow: rgb(75, 45, 198);
+  --space-shadow: rgb(153, 153, 153);
   --space-tone: rgb(102, 77, 203);
-  --space-maroon: #3f0b7e;
+  --space-maroon: #e2e2e2;
   --space-whey: white;
-  --space-glow: rgb(110, 8, 244);
-  --space-red: #721dab;
+  --space-red: #9c1212;
+  --space-black: rgb(0, 0, 0);
 }
   
 html, body {
@@ -16,8 +16,7 @@ html, body {
   
   
 body {
-  background: rgb(152, 3, 117);
-  background: linear-gradient(80deg, var(--space-maroon) 40%, rgba(192, 29, 83, 0.816) 100%);
+  background: linear-gradient(80deg, var(--space-maroon) 40%, var(--space-whey) 100%);
   font-family: Helvetica, sans-serif;
   font-weight: light;
   -webkit-font-smoothing: antialiased;
@@ -176,7 +175,6 @@ input[type="text"]:hover {
 }
 
 input[type="text"] {
-  box-shadow: 0 3px 6px -1px var(--space-shadow);
   left: 38.75%;
   position: relative;
   margin-bottom: 20px;
@@ -196,10 +194,9 @@ input[type="text"] {
 }
   
 input[type="text"]:focus {
-  box-shadow: 0 8px 9px -2px rgba(192, 29, 83, 0.816);
   outline: none;
-  background-color: var(--space-shadow);
-  color: var(--space-whey);
+  color: var(--space-red);
+  box-shadow: 0 6px 9px -2px var(--space-shadow);
   
 }
   
@@ -208,14 +205,6 @@ input[type="text"]:valid  {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px); 
   border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-input[type="email"]:hover {
-  box-shadow: 0 6px 9px -2px var(--space-shadow);
-}
-
-input[type="email"]:hover {
-  box-shadow: 0 6px 9px -2px var(--space-shadow);
 }
 
 input[type="email"] {
@@ -241,11 +230,7 @@ input[type="email"] {
 }
   
 input[type="email"]:focus {
-  box-shadow: 0 8px 9px -2px rgba(192, 29, 124, 0.816);
   outline: none;
-  background-color: var(--space-tone);
-  color: var(--space-whey);
-  
 }
   
 input[type="email"]:valid  {
@@ -323,21 +308,21 @@ input[type="email"]:valid  {
   left: 0%;
   top: 0%;
   animation: rotate-one 5s linear infinite;
-  border-bottom: 3px solid var(--space-whey);
+  border-bottom: 3px solid var(--space-red);
 }
   
 .inner.two {
   right: 0%;
   top: 0%;
   animation: rotate-two 2.5s linear infinite;
-  border-right: 3px solid var(--space-whey);;
+  border-right: 3px solid var(--space-red);;
 }
   
 .inner.three {
   right: 0%;
   bottom: 0%;
   animation: rotate-three 2s linear infinite;
-  border-top: 3px solid var(--space-whey);;
+  border-top: 3px solid var(--space-red);;
 }
   
 @keyframes rotate-one {
